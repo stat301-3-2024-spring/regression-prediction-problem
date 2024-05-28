@@ -122,3 +122,17 @@ test_regression <- test_regression |>
 
 save(train_regression, file = here('data/train_regression.rda'))
 save(test_regression, file = here('data/test_regression.rda'))
+
+# determining correlations
+target_column <- "price"
+
+regression_correlations <- train_regression |> 
+  select_if(is.numeric) 
+
+correlation_matrix <- regression_correlations |> 
+  select(all_of(target_column), everything()) |> 
+  cor()
+
+correlation_long <- as.data.frame(as.table(correlation_matrix))
+
+view(correlation_matrix)
